@@ -45,27 +45,35 @@ public class StudentService {
     }
 
     /**
-     * I need to improve it.
      * @param studentModel - Student model object.
      * @return StudentModel
      */
     public StudentModel update(StudentModel studentModel){
 
-        var result =  this.studentRepository
+        var result =
+                this.studentRepository
                 .getStudentByIdStudent(studentModel.getIdStudent())
-                .map(resource -> {
-                    resource.setEmail(studentModel.getEmail());
-                    resource.setCreationDate(resource.getCreationDate());
-                    resource.setToken(resource.getToken());
-                    resource.setRa(resource.getRa());
-                    resource.setStudentInternalCode(resource.getStudentInternalCode());
-                    return this.studentRepository.save(resource);
-                }).orElseThrow(
-                        () ->
-                        new HttpServerErrorException(
-                            HttpStatus.INTERNAL_SERVER_ERROR,
-                            " We cannot to save " + studentModel.getFirstName() + " in our database, please try it again in a few moment."
-                        )
+                .map(
+                    resource -> {
+                        resource.setEmail(studentModel.getEmail() == null ? resource.getEmail() : studentModel.getEmail());
+                        resource.setCreationDate(studentModel.getCreationDate() == null ? resource.getCreationDate() : studentModel.getCreationDate());
+                        resource.setToken(studentModel.getToken() == null ? resource.getToken() : studentModel.getToken());
+                        resource.setRa(studentModel.getRa() == null ? resource.getRa() : studentModel.getRa());
+                        resource.setStudentInternalCode(studentModel.getStudentInternalCode() == null ? resource.getStudentInternalCode() : studentModel.getStudentInternalCode());
+                        resource.setIdStudent(studentModel.getIdStudent() == null ? resource.getIdStudent() : studentModel.getIdStudent());
+                        resource.setAge(studentModel.getAge() == 0 ? resource.getAge() : studentModel.getAge());
+                        resource.setCpf(studentModel.getCpf() == null ? resource.getCpf() : studentModel.getCpf());
+                        resource.setRg(studentModel.getRg() == null ? resource.getRg() : studentModel.getRg());
+                        resource.setCellphone(studentModel.getCellphone() == null ? resource.getCellphone() : studentModel.getCellphone());
+                        return this.studentRepository.save(resource);
+                    }
+                )
+                .orElseThrow(
+                    () ->
+                    new HttpServerErrorException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        " We cannot to save " + studentModel.getFirstName() + " in our database, please try it again in a few moment."
+                    )
                 );
 
         return StudentModel.toModel(result);
