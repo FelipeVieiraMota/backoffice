@@ -2,9 +2,9 @@ package com.motafelipe.api.backoffice.services;
 
 import com.motafelipe.api.backoffice.domains.vo.entities.StudentEntity;
 import com.motafelipe.api.backoffice.exception.NotFoundException;
-import com.motafelipe.api.backoffice.models.PageModel;
-import com.motafelipe.api.backoffice.models.PageRequestModel;
-import com.motafelipe.api.backoffice.models.StudentModel;
+import com.motafelipe.api.backoffice.models.pagination.PageModel;
+import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
+import com.motafelipe.api.backoffice.models.students.StudentModel;
 import com.motafelipe.api.backoffice.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

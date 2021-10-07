@@ -1,5 +1,6 @@
 package com.motafelipe.api.backoffice.domains.vo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,14 +8,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity(name="tb_student")
-public class StudentEntity implements Serializable{
+public class StudentEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,4 +60,7 @@ public class StudentEntity implements Serializable{
     @Column(name = "cellphone", length = 50, nullable = false)
     private String cellphone;
 
+    //@Getter(onMethod = @__({@JsonIgnore}))
+    //@OneToMany(mappedBy = "student")
+    //private List<AddressEntity> address = new ArrayList<>();
 }

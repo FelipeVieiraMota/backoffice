@@ -2,9 +2,9 @@ package com.motafelipe.api.backoffice.controller;
 
 import com.motafelipe.api.backoffice.domains.vo.entities.StudentEntity;
 import com.motafelipe.api.backoffice.models.EnvelopedData;
-import com.motafelipe.api.backoffice.models.PageModel;
-import com.motafelipe.api.backoffice.models.PageRequestModel;
-import com.motafelipe.api.backoffice.models.StudentModel;
+import com.motafelipe.api.backoffice.models.pagination.PageModel;
+import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
+import com.motafelipe.api.backoffice.models.students.StudentModel;
 import com.motafelipe.api.backoffice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

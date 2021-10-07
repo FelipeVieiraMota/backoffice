@@ -1,4 +1,4 @@
-package com.motafelipe.api.backoffice.models;
+package com.motafelipe.api.backoffice.models.pagination;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

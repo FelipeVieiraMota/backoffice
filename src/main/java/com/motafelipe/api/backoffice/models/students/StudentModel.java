@@ -1,4 +1,4 @@
-package com.motafelipe.api.backoffice.models;
+package com.motafelipe.api.backoffice.models.students;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
