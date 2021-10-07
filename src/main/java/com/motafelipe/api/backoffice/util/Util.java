@@ -12,13 +12,6 @@ public class Util {
     private static final ResourceBundle bundle =
             ResourceBundle.getBundle(bundlePath);
 
-    public static String getMessage(String message) {
-
-        if (bundle.containsKey(message))
-            return bundle.getString(message);
-
-        throw new RuntimeException("Bundle not founded.");
-    }
 
     public static String getMessage(String message, Object param) {
 

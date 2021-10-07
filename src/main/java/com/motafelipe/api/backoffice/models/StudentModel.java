@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -39,7 +39,7 @@ public class StudentModel {
     public int age;
 
     @JsonProperty(value = "date_creation")
-    public LocalDate creationDate;
+    public Date creationDate;
 
     @JsonProperty(value = "email")
     public String email;
@@ -68,6 +68,23 @@ public class StudentModel {
                 studentEntity.getRa(),
                 studentEntity.getStudentInternalCode(),
                 studentEntity.getCellphone()
+        );
+    }
+
+    public static StudentEntity toEntity(StudentModel studentModel) {
+        return new StudentEntity(
+                studentModel.getIdStudent(),
+                studentModel.getToken(),
+                studentModel.getFirstName(),
+                studentModel.getLastName(),
+                studentModel.getCpf(),
+                studentModel.getRg(),
+                studentModel.getAge(),
+                studentModel.getCreationDate(),
+                studentModel.getEmail(),
+                studentModel.getRa(),
+                studentModel.getStudentInternalCode(),
+                studentModel.getCellphone()
         );
     }
 }

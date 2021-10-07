@@ -1,6 +1,5 @@
 package com.motafelipe.api.backoffice.domains.vo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,7 +43,7 @@ public class StudentEntity implements Serializable{
 
     @Column(name = "creation_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate creationDate;
+    private Date creationDate;
 
     @Column(name = "email", length = 100, nullable = false)
     private String email;
@@ -61,7 +57,4 @@ public class StudentEntity implements Serializable{
     @Column(name = "cellphone", length = 50, nullable = false)
     private String cellphone;
 
-    //@Getter(onMethod = @__({@JsonIgnore}))
-    //@OneToMany(mappedBy = "student")
-    //private List<StudentAddressEntity> studentAddress = new ArrayList<>();
 }
