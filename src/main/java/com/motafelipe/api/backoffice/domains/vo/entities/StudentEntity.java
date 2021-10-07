@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,4 +59,8 @@ public class StudentEntity implements Serializable {
 
     @Column(name = "cellphone", length = 50, nullable = false)
     private String cellphone;
+
+    @Getter(onMethod = @__({@JsonIgnore}))
+    @OneToMany(mappedBy = "fkStudent")
+    private List<AddressEntity> stages = new ArrayList<>();
 }
