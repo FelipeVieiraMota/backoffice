@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javassist.NotFoundException;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value="/v1/backoffice/students_registration")
@@ -26,7 +25,7 @@ public class StudentController {
 
 
     @PutMapping("/student/{id_student}")
-    public ResponseEntity<StudentModel> update(@PathVariable(name="id_student") Long idStudent, @RequestBody @Valid StudentModel studentModel){
+    public ResponseEntity<StudentModel> update(@PathVariable(name="id_student") Long idStudent, @RequestBody StudentModel studentModel){
         studentModel.setIdStudent(idStudent);
         StudentModel updatedStudentModel = this.studentService.update(studentModel);
         return ResponseEntity.ok(updatedStudentModel);
@@ -61,7 +60,7 @@ public class StudentController {
      * @return
      */
     @PostMapping("/student")
-    public ResponseEntity<EnvelopedData<StudentModel>> save (@RequestBody @Valid StudentModel studentModel){
+    public ResponseEntity<EnvelopedData<StudentModel>> save (@RequestBody StudentModel studentModel){
         var result = this.studentService.save(studentModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(new EnvelopedData<>(result));
     }
