@@ -8,4 +8,4 @@ export JAVA_HOME
 mvn clean
 mvn package
 docker build -t motafelipe/spring-api .
-docker run -p 3000:8080  --spring-api motafelipe/spring-api
+docker run -p 3000:8080  --name spring-api motafelipe/spring-api
