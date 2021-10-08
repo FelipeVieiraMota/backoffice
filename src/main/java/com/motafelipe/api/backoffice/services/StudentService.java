@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public class StudentService {
         studentModel.setRa(UUID.randomUUID().toString());
         studentModel.setStudentInternalCode(UUID.randomUUID().toString());
         studentModel.setCreationDate(new Date());
-
+        studentModel.setAddress(new ArrayList<>());
         var data = Optional.of(this.studentRepository.save(StudentModel.toEntity(studentModel)));
 
         data.orElseThrow(
