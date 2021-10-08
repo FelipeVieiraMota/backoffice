@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -53,6 +54,8 @@ public class StudentModel {
     @JsonProperty(value = "cellphone")
     public String cellphone;
 
+    @JsonProperty(value = "address")
+    public List<AddressModel> address;
 
     public static StudentModel toModel (StudentEntity studentEntity){
         return new StudentModel(
@@ -67,7 +70,8 @@ public class StudentModel {
                 studentEntity.getEmail(),
                 studentEntity.getRa(),
                 studentEntity.getStudentInternalCode(),
-                studentEntity.getCellphone()
+                studentEntity.getCellphone(),
+                AddressModel.toModelList(studentEntity.getAddress())
         );
     }
 
@@ -85,7 +89,7 @@ public class StudentModel {
                 studentModel.getRa(),
                 studentModel.getStudentInternalCode(),
                 studentModel.getCellphone(),
-                null
+                AddressModel.toEntityList(studentModel.getAddress())
         );
     }
 }

@@ -62,5 +62,5 @@ public class StudentEntity implements Serializable {
 
     @Getter(onMethod = @__({@JsonIgnore}))
     @OneToMany(mappedBy = "fkStudent")
-    private List<AddressEntity> stages = new ArrayList<>();
+    private List<AddressEntity> address = new ArrayList<>();
 }
