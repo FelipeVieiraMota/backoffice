@@ -4,6 +4,7 @@ import com.motafelipe.api.backoffice.domains.vo.entities.UserEntity;
 import com.motafelipe.api.backoffice.exception.NotFoundException;
 import com.motafelipe.api.backoffice.models.pagination.PageModel;
 import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
+import com.motafelipe.api.backoffice.models.user.UserModelRequest;
 import com.motafelipe.api.backoffice.repositories.UserRepository;
 import com.motafelipe.api.backoffice.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +31,10 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public UserEntity save (UserEntity user){
-        String hash = HashUtil.getSecureHash(user.getPassword());
+    public UserEntity save (UserModelRequest userModelRequest){
+        String hash = HashUtil.getSecureHash(userModelRequest.getPassword());
+        userModelRequest.setPassword(hash);
+        var user = UserModelRequest.toEntity(userModelRequest);
         user.setPassword(hash);
         return userRepository.save(user);
     }
@@ -57,7 +59,6 @@ public class UserService implements UserDetailsService {
     public PageModel<UserEntity> listAllOnLazyMode (PageRequestModel pr) {
         Pageable pageable = PageRequest.of(pr.getPage(), pr.getSize());
         Page<UserEntity> page = userRepository.findAll(pageable);
-
         return new PageModel<>((int)page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
     }
 
@@ -71,9 +72,7 @@ public class UserService implements UserDetailsService {
     }
 
     public int updateRole(UserEntity user){
-        //var updated = userRepository.updateRole(user.getIdUser(), user.getRole());
-        //return updated;
-        return -1;
+        return userRepository.updateRole(user.getIdUser(), user.getRole());
     }
 
     @Override
@@ -83,7 +82,7 @@ public class UserService implements UserDetailsService {
         if(result.isEmpty())
             throw new UsernameNotFoundException("Does not exists user with e-mail = "+username);
         UserEntity user = result.get();
-        List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_ "+user.getRole().name()));
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_ " + user.getRole().name()));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),authorities);
     }
 }

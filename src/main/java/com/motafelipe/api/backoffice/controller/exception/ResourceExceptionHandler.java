@@ -85,6 +85,18 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
+     * handleNullPointerException
+     * @param ex - ex
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ApiError> handleNullPointerException(NullPointerException ex){
+        ApiError error = new ApiError(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), getFormattedDateTime());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+
+    /**
      *
      * @param ex
      * @param headers

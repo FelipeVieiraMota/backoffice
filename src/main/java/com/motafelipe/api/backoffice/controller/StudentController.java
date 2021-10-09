@@ -6,26 +6,16 @@ import com.motafelipe.api.backoffice.models.pagination.PageModel;
 import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
 import com.motafelipe.api.backoffice.models.students.AddressModel;
 import com.motafelipe.api.backoffice.models.students.StudentModel;
-import com.motafelipe.api.backoffice.models.user.UserLoginRequestModel;
-import com.motafelipe.api.backoffice.models.user.UserLoginResponseModel;
-import com.motafelipe.api.backoffice.security.JwtManager;
 import com.motafelipe.api.backoffice.services.AddressService;
 import com.motafelipe.api.backoffice.services.StudentService;
-import com.motafelipe.api.backoffice.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javassist.NotFoundException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="/v1/backoffice/students")
@@ -33,26 +23,18 @@ public class StudentController {
 
     private final StudentService studentService;
     private final AddressService addressService;
-    private final AuthenticationManager authManager;
-    private final JwtManager jwtManager;
 
     /**
      * StudentController
      * @param studentService - studentService
      * @param addressService - addressService
-     * @param authManager - authManager
-     * @param jwtManager - jwtManager
      */
     @Autowired
     public StudentController(
             StudentService studentService,
-            AddressService addressService,
-            AuthenticationManager authManager,
-            JwtManager jwtManager) {
+            AddressService addressService) {
         this.studentService = studentService;
         this.addressService = addressService;
-        this.authManager = authManager;
-        this.jwtManager = jwtManager;
     }
 
     /**
@@ -61,6 +43,7 @@ public class StudentController {
      * @param studentModel - studentModel
      * @return ResponseEntity<StudentModel>
      */
+    @Secured({"ROLE_ADMINISTRATOR"})
     @PutMapping("/{id_student}")
     public ResponseEntity<StudentModel> update(@PathVariable(name="id_student") Long idStudent, @RequestBody @Valid StudentModel studentModel){
         studentModel.setIdStudent(idStudent);
@@ -85,6 +68,7 @@ public class StudentController {
      * @return ResponseEntity
      * @throws NotFoundException - Http status 404
      */
+    @Secured({"ROLE_ADMINISTRATOR"})
     @DeleteMapping("/{id_student}")
     public ResponseEntity deleteById(@PathVariable(name="id_student") Long idStudent) {
         this.studentService.deleteById(idStudent);
@@ -123,44 +107,12 @@ public class StudentController {
      * @param addressModel
      * @return ResponseEntity<EnvelopedData<AddressModel>>
      */
+    @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping("/{id_student}/address")
     public ResponseEntity<EnvelopedData<AddressModel>> save (
             @PathVariable(name="id_student") Long idStudent,
             @RequestBody @Valid AddressModel addressModel){
         var result = this.addressService.save(idStudent, addressModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(new EnvelopedData<>(result));
-    }
-
-    /**
-     * Login
-     * @param user - user
-     * @return ResponseEntity<UserLoginResponseModel>
-     */
-    @PostMapping("/login")
-    public ResponseEntity<UserLoginResponseModel> login(@RequestBody @Valid UserLoginRequestModel user){
-
-        var tPass = HashUtil.getSecureHash(user.getPassword());
-
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-
-        Authentication auth =
-                authManager.authenticate(token);
-
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        org.springframework.security.core.userdetails.User userSpring =
-                (org.springframework.security.core.userdetails.User) auth.getPrincipal();
-
-        String email =
-                userSpring.getUsername();
-
-        var roles = userSpring
-                .getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(jwtManager.createToken(email, roles));
     }
 }
