@@ -1,7 +1,6 @@
 package com.motafelipe.api.backoffice.controller;
 
 import com.motafelipe.api.backoffice.domains.vo.entities.StudentEntity;
-import com.motafelipe.api.backoffice.domains.vo.entities.UserEntity;
 import com.motafelipe.api.backoffice.models.EnvelopedData;
 import com.motafelipe.api.backoffice.models.pagination.PageModel;
 import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
