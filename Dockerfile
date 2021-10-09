@@ -15,14 +15,8 @@
 # In this case we are using .jar insted of .war
 # docker build -t motafelipe/spring-api . (Never uncomment this line)
 
-# To run in local Host
+# To run in EC2 instance
 FROM openjdk:12-alpine
 COPY target/*.jar /backoffice.jar
 CMD ["java", "-jar", "/backoffice.jar"]
-ENTRYPOINT [ "sh", "-c", "java -jar backoffice.jar" ]
-
-# To run in EC2 instance
-# FROM openjdk:12-alpine
-# COPY *.jar /backoffice.jar
-# CMD ["java", "-jar", "/backoffice.jar"]
-# ENTRYPOINT [ "sh", "-c", "java -jar backoffice.jar" ]
+ENTRYPOINT [ "sh", "-c", "java -jar backoffice.jar"]
