@@ -1,6 +1,7 @@
 package com.motafelipe.api.backoffice.controller;
 
 import com.motafelipe.api.backoffice.domains.vo.entities.StudentEntity;
+import com.motafelipe.api.backoffice.domains.vo.entities.UserEntity;
 import com.motafelipe.api.backoffice.models.EnvelopedData;
 import com.motafelipe.api.backoffice.models.pagination.PageModel;
 import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
@@ -15,6 +16,7 @@ import com.motafelipe.api.backoffice.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,10 +32,10 @@ import java.util.stream.Collectors;
 @RequestMapping(value="/v1/backoffice/students")
 public class StudentController {
 
-    private StudentService studentService;
-    private AddressService addressService;
-    private AuthenticationManager authManager;
-    private JwtManager jwtManager;
+    private final StudentService studentService;
+    private final AddressService addressService;
+    private final AuthenticationManager authManager;
+    private final JwtManager jwtManager;
 
     /**
      * StudentController
@@ -95,6 +97,7 @@ public class StudentController {
      * @param studentModel - parameter
      * @return ResponseEntity<EnvelopedData<StudentModel>>
      */
+    @Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping()
     public ResponseEntity<EnvelopedData<StudentModel>> save (@RequestBody @Valid StudentModel studentModel){
         var result = this.studentService.save(studentModel);
