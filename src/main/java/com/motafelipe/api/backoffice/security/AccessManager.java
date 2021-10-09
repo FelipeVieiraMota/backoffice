@@ -6,6 +6,8 @@ import com.motafelipe.api.backoffice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Objects;
 import java.util.Optional;
 
 @Component("accessManager")
@@ -28,6 +30,6 @@ public class AccessManager {
 
         UserEntity user = result.get();
 
-        return user.getIdUser() == id;
+        return Objects.equals(user.getIdUser(), id);
     }
 }

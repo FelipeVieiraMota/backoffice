@@ -11,6 +11,7 @@ import com.motafelipe.api.backoffice.models.user.UserLoginResponseModel;
 import com.motafelipe.api.backoffice.security.JwtManager;
 import com.motafelipe.api.backoffice.services.AddressService;
 import com.motafelipe.api.backoffice.services.StudentService;
+import com.motafelipe.api.backoffice.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -136,6 +136,8 @@ public class StudentController {
      */
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseModel> login(@RequestBody @Valid UserLoginRequestModel user){
+
+        var tPass = HashUtil.getSecureHash(user.getPassword());
 
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());

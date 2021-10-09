@@ -23,7 +23,7 @@ pwd
 ls
 echo
 
-scp -i "BackOfficeStudents.pem" ~/workspace/Canada/backoffice/target/backoffice-0.0.1-SNAPSHOT.jar ubuntu@ec2-3-87-208-55.compute-1.amazonaws.com:/home/ubuntu
+scp -i "BackOfficeStudents.pem" ~/workspace/Canada/backoffice/target/backoffice-0.0.1-SNAPSHOT.jar ubuntu@ec2-3-87-208-55.compute-1.amazonaws.com:/home/ubuntu/target
 echo "Copied jar file from local machine to ec2 instance"
 echo "~/workspace/Canada/backoffice/target/backoffice-0.0.1-SNAPSHOT.jar"
 echo

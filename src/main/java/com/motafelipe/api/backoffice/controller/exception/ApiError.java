@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,5 +19,5 @@ public class ApiError implements Serializable {
     @JsonProperty("http_status_code")
     private int httpStatusCode;
     private String message;
-    private LocalDateTime date;
+    private Date date;
 }

@@ -5,6 +5,7 @@ import com.motafelipe.api.backoffice.exception.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +30,8 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
      * Created to return the current data and hour
      * @return LocalDateTime
      */
-    private LocalDateTime getFormattedDateTime(){
-        return LocalDateTime.now();
+    private Date getFormattedDateTime(){
+        return new Date();
     }
 
     /**
@@ -69,6 +71,17 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException ex){
         ApiError error = new ApiError(HttpStatus.FORBIDDEN.value(), ex.getMessage(), getFormattedDateTime());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    /**
+     * handleBadCredentialsException
+     * @param ex - ex
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleBadCredentialsException(BadCredentialsException ex){
+        ApiError error = new ApiError(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), getFormattedDateTime());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
     /**

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AuthorizationFilter extends OncePerRequestFilter {
@@ -33,7 +34,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         String jwt = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (jwt == null || !jwt.startsWith(SecurityConstants.JWT_PROVIDER)){
-            ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED.value(), SecurityConstants.JWT_INVALID_MSG, LocalDateTime.now());
+            ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED.value(), SecurityConstants.JWT_INVALID_MSG, new Date());
             PrintWriter writer = httpServletResponse.getWriter();
             ObjectMapper mapper = new ObjectMapper();
             String apiErrorString = mapper.writeValueAsString(apiError);
@@ -56,7 +57,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             Authentication authentication = new UsernamePasswordAuthenticationToken( email, null, grantedAuthorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (Exception ex){
-            ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), LocalDateTime.now());
+            ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), new Date());
             PrintWriter writer = httpServletResponse.getWriter();
             ObjectMapper mapper = new ObjectMapper();
             String apiErrorString = mapper.writeValueAsString(apiError);
