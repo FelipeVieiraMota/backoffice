@@ -41,8 +41,9 @@ public class StudentEntity implements Serializable {
     @Column(name = "rg", nullable = false)
     private String rg;
 
-    @Column(name = "age", nullable = false)
-    int age;
+    @Column(name = "date_of_birth", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date dateOfBirth;
 
     @Column(name = "creation_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

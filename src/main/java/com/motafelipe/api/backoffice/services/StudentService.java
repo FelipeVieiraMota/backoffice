@@ -62,7 +62,7 @@ public class StudentService {
                         resource.setRa(studentModel.getRa() == null ? resource.getRa() : studentModel.getRa());
                         resource.setStudentInternalCode(studentModel.getStudentInternalCode() == null ? resource.getStudentInternalCode() : studentModel.getStudentInternalCode());
                         resource.setIdStudent(studentModel.getIdStudent() == null ? resource.getIdStudent() : studentModel.getIdStudent());
-                        resource.setAge(studentModel.getAge() == 0 ? resource.getAge() : studentModel.getAge());
+                        resource.setDateOfBirth(studentModel.getDateOfBirth() == null ? resource.getDateOfBirth() : studentModel.getDateOfBirth());
                         resource.setCpf(studentModel.getCpf() == null ? resource.getCpf() : studentModel.getCpf());
                         resource.setRg(studentModel.getRg() == null ? resource.getRg() : studentModel.getRg());
                         resource.setCellphone(studentModel.getCellphone() == null ? resource.getCellphone() : studentModel.getCellphone());

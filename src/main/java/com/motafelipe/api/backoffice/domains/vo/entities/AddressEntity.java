@@ -24,7 +24,7 @@ public class AddressEntity implements Serializable {
     private Long idAddress;
 
     @Getter(onMethod = @__({@JsonIgnore}))
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_student")
     private StudentEntity fkStudent;
 

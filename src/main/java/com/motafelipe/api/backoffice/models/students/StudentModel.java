@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -37,8 +39,12 @@ public class StudentModel {
     @JsonProperty(value = "rg")
     public String rg;
 
-    @JsonProperty(value = "age")
-    public int age;
+    @JsonProperty(value = "date_of_birth")
+    @DateTimeFormat
+    @NotNull(message = " Must need have a valid date field. ")
+    @NotEmpty(message = " Must need have a valid date field. ")
+    @NotBlank(message = " Must need have a valid date field. ")
+    public Date dateOfBirth;
 
     @JsonProperty(value = "date_creation")
     public Date creationDate;
@@ -66,7 +72,7 @@ public class StudentModel {
                 studentEntity.getLastName(),
                 studentEntity.getCpf(),
                 studentEntity.getRg(),
-                studentEntity.getAge(),
+                studentEntity.getDateOfBirth(),
                 studentEntity.getCreationDate(),
                 studentEntity.getEmail(),
                 studentEntity.getRa(),
@@ -84,7 +90,7 @@ public class StudentModel {
                 studentModel.getLastName(),
                 studentModel.getCpf(),
                 studentModel.getRg(),
-                studentModel.getAge(),
+                studentModel.getDateOfBirth(),
                 studentModel.getCreationDate(),
                 studentModel.getEmail(),
                 studentModel.getRa(),
