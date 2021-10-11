@@ -1,7 +1,7 @@
 package com.motafelipe.api.backoffice.controller.exception;
 
-
 import com.motafelipe.api.backoffice.exception.NotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.nio.file.AccessDeniedException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- *  ResourceExceptionHandler handles runtime exceptions in our application and threat the shape of the final user's
- *  message.
+ *  ResourceExceptionHandler handles runtime exceptions in our application and threat the shape of the
+ *  final user's message.
  */
 @ControllerAdvice
 public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
@@ -63,8 +62,8 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     *
-     * @param ex
+     * Created to handle AccessDeniedException ( HTTP status code 403 ) throws.
+     * @param ex - ex
      * @return ResponseEntity<ApiError>
      */
     @ExceptionHandler(AccessDeniedException.class)
@@ -74,7 +73,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * handleBadCredentialsException
+     * Created to handle BadCredentialsException ( HTTP status code 401 ) throws.
      * @param ex - ex
      * @return ResponseEntity<ApiError>
      */
@@ -85,23 +84,33 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * handleNullPointerException
+     * Created to handle BadCredentialsException ( HTTP status code 500 ) throws.
      * @param ex - ex
      * @return ResponseEntity<ApiError>
      */
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ApiError> handleNullPointerException(NullPointerException ex){
-        ApiError error = new ApiError(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), getFormattedDateTime());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        ApiError error = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), getFormattedDateTime());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
+    /**
+     * Created to handle EmptyResultDataAccessException ( HTTP status code 400 ) throws.
+     * @param ex - ex
+     * @return ResponseEntity<ApiError>
+     */
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<ApiError> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex){
+        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), getFormattedDateTime());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 
     /**
-     *
-     * @param ex
-     * @param headers
-     * @param status
-     * @param request
+     * handleMethodArgumentNotValid
+     * @param ex - ex
+     * @param headers - headers
+     * @param status - status
+     * @param request - request
      * @return ResponseEntity<Object>
      */
     @Override
@@ -112,9 +121,10 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
           HttpStatus status,
           WebRequest request) {
         List<String> errors = new ArrayList<>();
-        ex.getBindingResult().getAllErrors().forEach(error ->{ errors.add(error.getDefaultMessage()); });
+        ex.getBindingResult().getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
         String defaultMessage = "Invalid fields";
-        ApiErrorList error = new ApiErrorList(HttpStatus.BAD_REQUEST.value(),defaultMessage , getFormattedDateTime(), errors);
+        ApiErrorList error =
+                new ApiErrorList(HttpStatus.BAD_REQUEST.value(),defaultMessage , getFormattedDateTime(), errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

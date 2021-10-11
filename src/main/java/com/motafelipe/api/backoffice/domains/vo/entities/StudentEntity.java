@@ -61,6 +61,6 @@ public class StudentEntity implements Serializable {
     private String cellphone;
 
     @Getter(onMethod = @__({@JsonIgnore}))
-    @OneToMany(mappedBy = "fkStudent")
+    @OneToMany(mappedBy = "fkStudent", cascade = CascadeType.ALL)
     private List<AddressEntity> address = new ArrayList<>();
 }
