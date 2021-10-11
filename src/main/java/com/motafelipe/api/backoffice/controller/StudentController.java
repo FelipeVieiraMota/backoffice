@@ -43,7 +43,7 @@ public class StudentController {
      * @param studentModel - studentModel
      * @return ResponseEntity<StudentModel>
      */
-    @Secured({"ROLE_ADMINISTRATOR"})
+    //@Secured({"ROLE_ADMINISTRATOR"})
     @PutMapping("/{id_student}")
     public ResponseEntity<StudentModel> update(@PathVariable(name="id_student") Long idStudent, @RequestBody @Valid StudentModel studentModel){
         studentModel.setIdStudent(idStudent);
@@ -68,7 +68,7 @@ public class StudentController {
      * @return ResponseEntity
      * @throws NotFoundException - Http status 404
      */
-    @Secured({"ROLE_ADMINISTRATOR"})
+    //@Secured({"ROLE_ADMINISTRATOR"})
     @DeleteMapping("/{id_student}")
     public ResponseEntity deleteById(@PathVariable(name="id_student") Long idStudent) {
         this.studentService.deleteById(idStudent);
@@ -80,7 +80,7 @@ public class StudentController {
      * @param studentModel - parameter
      * @return ResponseEntity<EnvelopedData<StudentModel>>
      */
-    @Secured({"ROLE_ADMINISTRATOR"})
+    //@Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping()
     public ResponseEntity<EnvelopedData<StudentModel>> save (@RequestBody @Valid StudentModel studentModel){
         var result = this.studentService.save(studentModel);
@@ -107,7 +107,7 @@ public class StudentController {
      * @param addressModel
      * @return ResponseEntity<EnvelopedData<AddressModel>>
      */
-    @Secured({"ROLE_ADMINISTRATOR"})
+    //@Secured({"ROLE_ADMINISTRATOR"})
     @PostMapping("/{id_student}/address")
     public ResponseEntity<EnvelopedData<AddressModel>> save (
             @PathVariable(name="id_student") Long idStudent,
