@@ -3,10 +3,13 @@ package com.motafelipe.api.backoffice.models.students;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.motafelipe.api.backoffice.domains.vo.entities.StudentEntity;
+import com.motafelipe.api.backoffice.models.pagination.PageModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -14,6 +17,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -80,6 +85,38 @@ public class StudentModel {
                 studentEntity.getCellphone(),
                 AddressModel.toModelList(studentEntity.getAddress())
         );
+    }
+
+
+    public static PageModel<StudentModel> entityPageToStudentPageModel(Page<StudentEntity> pageEntity){
+
+        var listOfStudentModel = StudentModel.toModelList(pageEntity.toList());
+
+        var result = new PageImpl<>(listOfStudentModel);
+
+        return new PageModel<>((int)result.getTotalElements(), result.getSize(), result.getTotalPages(), result.getContent());
+    }
+
+    public static List<StudentModel> toModelList (List<StudentEntity> listOfStudentEntity){
+
+        return listOfStudentEntity
+                .stream()
+                .map(entity -> new StudentModel(
+                    entity.getIdStudent(),
+                    entity.getToken(),
+                    entity.getFirstName(),
+                    entity.getLastName(),
+                    entity.getCpf(),
+                    entity.getRg(),
+                    entity.getDateOfBirth(),
+                    entity.getCreationDate(),
+                    entity.getEmail(),
+                    entity.getRa(),
+                    entity.getStudentInternalCode(),
+                    entity.getCellphone(),
+                    AddressModel.toModelList(entity.getAddress())
+                ))
+                .collect(Collectors.toList());
     }
 
     public static StudentEntity toEntity(StudentModel studentModel) {

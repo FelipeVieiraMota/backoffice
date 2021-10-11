@@ -7,9 +7,7 @@ import com.motafelipe.api.backoffice.models.pagination.PageRequestModel;
 import com.motafelipe.api.backoffice.models.students.StudentModel;
 import com.motafelipe.api.backoffice.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
@@ -95,12 +93,7 @@ public class StudentService {
         return StudentModel.toModel(data.get());
     }
 
-    public PageModel<StudentEntity> getPagination (PageRequestModel pr) {
-
-        Pageable pageable = PageRequest.of(pr.getPage(), pr.getSize());
-
-        Page<StudentEntity> page = studentRepository.findAll(pageable);
-
-        return new PageModel<>((int)page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+    public PageModel<StudentModel> getPagination (PageRequestModel pr) {
+        return StudentModel.entityPageToStudentPageModel(studentRepository.findAll(PageRequest.of(pr.getPage(), pr.getSize())));
     }
 }

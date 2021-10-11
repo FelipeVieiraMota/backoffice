@@ -94,11 +94,11 @@ public class StudentController {
      * @return ResponseEntity<PageModel<StudentEntity>>
      */
     @GetMapping
-    public ResponseEntity<PageModel<StudentEntity>> getPagination(
+    public ResponseEntity<PageModel<StudentModel>> getPagination(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         PageRequestModel pr = new PageRequestModel(page, size);
-        PageModel<StudentEntity> pm = this.studentService.getPagination(pr);
+        PageModel<StudentModel> pm = this.studentService.getPagination(pr);
         return ResponseEntity.ok(pm);
     }
 
